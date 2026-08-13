@@ -80,7 +80,7 @@ def get_data(filters):
 		total_balance = 0
 
 		for row in gl_report_data:
-			if row.account == "'Closing (Opening + Total)'":
+			if row.get("account") == "'Closing (Opening + Total)'":
 				total_balance += row.get("balance")
 
 		acc["balance"] = total_balance
