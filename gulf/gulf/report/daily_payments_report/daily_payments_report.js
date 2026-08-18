@@ -17,11 +17,11 @@ frappe.query_reports["Daily Payments Report"] = {
 		},
 		{
 			fieldname: "payment_type",
-			fieldtype: "Select",
+			fieldtype: "MultiSelectList",
 			label: __("Payment Type"),
-			reqd: 1,
-			options: "Receive\nPay\nInternal Transfer",
-			default: "Receive",
+			get_data: function () {
+				return ["Receive", "Pay", "Internal Transfer"].map((v) => ({ value: v, description: "" }));
+			},
 		},
 	]
 };

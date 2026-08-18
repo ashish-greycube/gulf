@@ -71,8 +71,13 @@ def get_data(filters):
 
 	condition = ""
 	if filters.get("from_date") and filters.get("to_date"):
-		condition = "AND pe.posting_date BETWEEN '{0}' AND '{1}'".format(filters.get('from_date'), filters.get('to_date'))
-		
+		condition += " AND pe.posting_date BETWEEN '{0}' AND '{1}'".format(filters.get('from_date'), filters.get('to_date'))
+	if filters.get("payment_type"):
+		payment_type = filters.get("payment_type")
+		if isinstance(payment_type, str):
+			payment_type = payment_type.split(",")
+		condition += " AND pe.payment_type IN ('{0}')".format("','".join(payment_type))
+
 	return frappe.db.sql("""
 		SELECT
 			pe.name AS pe_id,
@@ -85,6 +90,6 @@ def get_data(filters):
 		FROM
 			`tabPayment Entry` pe
 		WHERE
-			pe.payment_type = '{0}'
-			{1}
-	""".format(filters.get("payment_type"), condition), as_dict=1)
+			1=1
+			{0}
+	""".format(condition), as_dict=1)
