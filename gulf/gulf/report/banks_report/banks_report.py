@@ -2,6 +2,7 @@
 # For license information, please see license.txt
 
 import frappe
+from frappe import _
 
 from erpnext.accounts.report.general_ledger.general_ledger import execute as gl_execute
 # erpnext/erpnext/accounts/report/general_ledger/general_ledger.py
@@ -80,7 +81,7 @@ def get_data(filters):
 		total_balance = 0
 
 		for row in gl_report_data:
-			if row.get("account") == "'Closing (Opening + Total)'":
+			if row.get("account") == f"'{_('Closing (Opening + Total)')}'":
 				total_balance += row.get("balance")
 
 		acc["balance"] = total_balance
